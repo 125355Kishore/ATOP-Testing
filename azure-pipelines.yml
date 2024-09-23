@@ -11,7 +11,7 @@ pool:
 jobs:
 - deployment: TalosTS
   displayName: 'TalosTS'
-  environment: 'testing-vm' //please change this environment name according to the environment configured in AB
+  environment: 'Testing_Talos' 
   strategy:
     runOnce:
       deploy:
