@@ -2,7 +2,7 @@ trigger:
 - main //please change the branch name according to the branch configured in AB
 
 pool:
-  vmImage: ubuntu-latest //please change the vmImage name according to the image configured in AB
+  vmImage: windows //please change the vmImage name according to the image configured in AB
 
 jobs:
 - deployment: TalosTS
@@ -13,7 +13,7 @@ jobs:
       deploy:
         steps:
         - script: | 
-            apiRes=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X POST "https://d08ue0201.ac.lp.acml.com/talos/external/executeTestSet" -H "accept: */*" -H "apiKey: 355c88a4-9160-432d-b6da-a69628765560" -H "secretKey: bad9cf2b-cb70-42a7-badb-9bfc54766f0c" -H "Content-Type: application/json" -d "{\"projectId\": 1,\"testSetId\": 1,\"loggedUserName\": \"Org_Admin\",\"triggeredFromApp\": \"Talos\",\"maxNumberOfThreads\": 5,\"atopApiUrl\": \"https://d08ue0201.ac.lp.acml.com/atop/api/v1/\", \"talosApiUrl\": \"https://d08ue0201.ac.lp.acml.com/talos/\"}")
+            apiRes=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X POST "http://34.206.31.192/atop/talos/external/executeTestSet" -H "accept: */*" -H "apiKey:f9d7dbf6-35c1-458b-b2a5-c30ee78dc939" -H "secretKey:aea9e431-7398-4ce6-a8c0-de0d2fe00aba" -H "Content-Type: application/json" -d "{\"projectId\": 1022,\"testSetId\": 60405,\"loggedUserName\": \"Org_Admin\",\"triggeredFromApp\": \"Talos\",\"maxNumberOfThreads\": 5,\"atopApiUrl\": \"http://34.206.31.192/atop/api/v1/\", \"talosApiUrl\": \"http://34.206.31.192/atop/talos/\"}")
             apiResBody=$(echo $apiRes | sed -e 's/HTTPSTATUS\:.*//g')
             apiResStatus=$(echo $apiRes | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
             echo "Test suite execution response is $apiResBody"
