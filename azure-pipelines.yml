@@ -1,0 +1,24 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+trigger:
+- main //please change the branch name according to the branch configured in AB
+
+pool:
+  vmImage: windows //please change the vmImage name according to the image configured in AB
+
+jobs:
+- deployment: TalosTS
+  displayName: 'TalosTS'
+  environment: 'testing-vm' //please change this environment name according to the environment configured in AB
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - script: | 
+            apiRes=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X POST "http://34.206.31.192/atop/talos/external/executeTestSet" -H "accept: */*" -H "apiKey:f9d7dbf6-35c1-458b-b2a5-c30ee78dc939" -H "secretKey:aea9e431-7398-4ce6-a8c0-de0d2fe00aba" -H "Content-Type: application/json" -d "{\"projectId\": 1022,\"testSetId\": 60405,\"loggedUserName\": \"Org_Admin\",\"triggeredFromApp\": \"Talos\",\"maxNumberOfThreads\": 5,\"atopApiUrl\": \"http://34.206.31.192/atop/api/v1/\", \"talosApiUrl\": \"http://34.206.31.192/atop/talos/\"}")
+            apiResBody=$(echo $apiRes | sed -e 's/HTTPSTATUS\:.*//g')
+            apiResStatus=$(echo $apiRes | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+            echo "Test suite execution response is $apiResBody"
+            echo "Test suite execution status code is $apiResStatus"
