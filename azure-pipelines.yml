@@ -11,7 +11,7 @@ pool:
 jobs:
 - deployment: TalosTS
   displayName: 'TalosTS'
-  environment: 'Testing_Talos' 
+  environment: 'Talos_vm' 
   strategy:
     runOnce:
       deploy:
